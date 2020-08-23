@@ -28,6 +28,52 @@ def basic_questions():
     score = 0
     #asking the user what operation they would like to use
     operation = input("""What operation would you like to use:
+(1). Addition,
+(2). Subtraction,
+(3). Multiplication?\n""").lower().strip()
+    operations = ["+", "-", "x"]
+    if operation == "1":
+        operation = operations[0]
+    elif operation == "2":
+        operation = operations[1]
+    elif operation == "3":
+        operation = operations[2]
+    #asking the user how many questions they would like
+    user_question = int(input("How many questions would you like?\n"))
+    #creating a loop that will ask the user their given amount of questions
+    for i in range(0, user_question):
+        number1 = random.randint(0,12)
+        number2 = random.randint(0,12)
+        #not allowing negative numbers in the basic questions
+        if operation == "2":
+            if number1 > number2:
+                user_answer = int(input("What is {} {} {}?\n".format(number2, operation, number1)))
+            else:
+                user_answer = int(input("What is {} {} {}?\n".format(number1, operation, number2)))
+        user_answer = int(input("What is {} {} {}?\n".format(number1, operation, number2)))
+        #checking if the users answer is correct
+        if operation == "+":
+            answer = number1 + number2
+        elif operation == "-":
+            answer = number1 - number2
+        elif operation == "x":
+            answer = number1 * number2
+        if user_answer == answer:
+            print("Correct")
+            score += 1
+        else:
+            print("Incorrect")   
+    print("Your final score is {}/{}".format(score, user_question))
+    menu = input("Would you like to return to the menu?\n").strip().lower()
+    if menu == "yes":
+        main()
+
+#defining function to give the user harder questions
+def hard_questions():
+    #setting score variable
+    score = 0
+    #asking the user what operation they would like to use
+    operation = input("""What operation would you like to use:
 Addition,
 Subtraction,
 Multiplication?\n""").lower().strip()
@@ -42,36 +88,25 @@ Multiplication?\n""").lower().strip()
     user_question = int(input("How many questions would you like?\n"))
     #creating a loop that will ask the user their given amount of questions
     for i in range(0, user_question):
-        number1 = random.randint(0,12)
-        number2 = random.randint(0,12)
+        number1 = random.randint(0,24)
+        number2 = random.randint(0,24)
         user_answer = int(input("What is {} {} {}?\n".format(number1, operation, number2)))
         #checking if the users answer is correct
         if operation == "+":
-            if user_answer == number1 + number2:
-                print("Correct")
-                score += 1
-            else:
-                print("Incorrect")
+            answer = number1 + number2
         elif operation == "-":
-            if user_answer == number1 - number2:
-                print("Correct")
-                score += 1
-            else:
-                print("Incorrect")
+            answer = number1 - number2
         elif operation == "x":
-            if user_answer == number1 * number2:
-                print("Correct")
-                score += 1
-            else:
-                print("Incorrect")
+            answer = number1 * number2
+        if user_answer == answer:
+            print("Correct")
+            score += 1
+        else:
+            print("Incorrect")
     print("Your final score is {}/{}".format(score, user_question))
     menu = input("Would you like to return to the menu?\n").strip().lower()
     if menu == "yes":
         main()
-
-#defining function to give the user harder questions
-def hard_questions():
-    print("end")
 
 #defining function main to start the program
 def main():
