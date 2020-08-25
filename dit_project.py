@@ -8,21 +8,20 @@ import random
 #creating a menu system to navigate the program
 def menu():
     user_choice = 11
-    while user_choice != 1 and user_choice != 2:
+    while user_choice <= 0 or user_choice >= 5:
         try:
             user_choice = int(input("""Please choose an option:
 (1). Basic Questions
 (2). Hard Questions
-(3). Choose your own questions\n"""))
+(3). Exit the game\n"""))
         except ValueError:
             print("Please enter a number")
     if user_choice == 1:
         basic_questions()
     elif user_choice == 2:
         hard_questions()
-    else:
-        print("end")
-       
+    elif user_choice == 3:
+        print("Quitting")  
 
 #defining the function that will ask questions
 def basic_questions():
@@ -46,24 +45,30 @@ def basic_questions():
         operation = OP_SYMBOLS[1]
     elif operation == "3":
         operation = OP_SYMBOLS[2]
+    #defining a dict to store previous questions the user has answered
+    prev_answers = {
+        }
     #asking the user how many questions they would like
     user_question = -1
-    while user_question <= 0:
+    while user_question <= 0 or user_question > 50:
         try:
             user_question = int(input("How many questions would you like?\n"))
         except ValueError:
-            print("Please enter a number above 0")
+            print("Please enter a number above 0 and below 50")
     #creating a loop that will ask the user their given amount of questions
     for i in range(0, user_question):
         number1 = random.randint(0,12)
         number2 = random.randint(0,12)
-        #not allowing negative numbers in the basic questions
-        if operation == "2":
-            if number1 > number2:
-                user_answer = int(input("What is {} {} {}?\n".format(number2, operation, number1)))
-            else:
-                user_answer = int(input("What is {} {} {}?\n".format(number1, operation, number2)))
-        user_answer = int(input("{} {} {}\n= ".format(number1, operation, number2)))
+        #preventing negative numbers
+        while number1 < number2:
+            number1 = random.randint(0,12)
+            number2 = random.randint(0,12)
+        #asking the user the questions
+        question_num = (i + 1)
+        print(number1)
+        print(number2)
+        user_answer = int(input("Question {}: {} {} {}\n= ".format(question_num, number1, operation, number2)))
+        prev_answers["{} {} {}".format(number1, operation, number2)] = ["{}".format(user_answer)]
         #checking if the users answer is correct
         if operation == "+":
             answer = number1 + number2
@@ -77,9 +82,14 @@ def basic_questions():
         else:
             print("Incorrect")   
     print("Your final score is {}/{}".format(score, user_question))
+    print(prev_answers)
     menu = input("Would you like to return to the menu?\n").strip().lower()
     if menu == "yes":
+        print("Returning to the menu")
         main()
+    else:
+        print("Quitting")
+    
 
 #defining function to give the user harder questions
 def hard_questions():
