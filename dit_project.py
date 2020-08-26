@@ -2,10 +2,10 @@
 # dit_project.py
 # created by: Regan Meynell
 
-#import random
+# import random
 import random
 
-#creating a menu system to navigate the program
+# creating a menu system to navigate the program
 def menu():
     user_choice = 11
     while user_choice <= 0 or user_choice >= 5:
@@ -21,12 +21,12 @@ def menu():
     elif user_choice == 2:
         hard_questions()
     elif user_choice == 3:
-        print("Quitting")  
+        print("Quitting")
 
-#defining the function that will ask questions
+# defining the function that will ask questions
 def basic_questions():
     score = 0
-    #asking the user what operation they would like to use
+    # asking the user what operation they would like to use
     operations = ["1", "2", "3"]
     operation = 0
     while operation not in operations:
@@ -37,7 +37,7 @@ def basic_questions():
 (3). Multiplication?\n:""").lower().strip()
         except ValueError:
             print("Please enter a number between 1 and 4")
-            
+
     OP_SYMBOLS = ["+", "-", "x"]
     if operation == "1":
         operation = OP_SYMBOLS[0]
@@ -45,31 +45,38 @@ def basic_questions():
         operation = OP_SYMBOLS[1]
     elif operation == "3":
         operation = OP_SYMBOLS[2]
-    #defining a dict to store previous questions the user has answered
+    # defining a dict to store previous questions the user has answered
     prev_answers = {
         }
-    #asking the user how many questions they would like
+    # asking the user how many questions they would like
     user_question = -1
     while user_question <= 0 or user_question > 50:
         try:
             user_question = int(input("How many questions would you like?\n"))
         except ValueError:
             print("Please enter a number above 0 and below 50")
-    #creating a loop that will ask the user their given amount of questions
+
+    # creating a loop that will ask the user their given amount of questions
     for i in range(0, user_question):
-        number1 = random.randint(0,12)
-        number2 = random.randint(0,12)
-        #preventing negative numbers
+        number1 = random.randint(0, 12)
+        number2 = random.randint(0, 12)
+        # preventing negative numbers
         while number1 < number2:
-            number1 = random.randint(0,12)
-            number2 = random.randint(0,12)
-        #asking the user the questions
+            number1 = random.randint(0, 12)
+            number2 = random.randint(0, 12)
+        # asking the user the questions
         question_num = (i + 1)
         print(number1)
         print(number2)
-        user_answer = int(input("Question {}: {} {} {}\n= ".format(question_num, number1, operation, number2)))
+        user_answer = 0
+        while user_answer == 0:
+            try:
+                user_answer = int(input("Question {}: {} {} {}\n= "
+                .format(question_num, number1, operation, number2)))
+            except ValueError:
+                print("Please input a number value")
         prev_answers["{} {} {}".format(number1, operation, number2)] = ["{}".format(user_answer)]
-        #checking if the users answer is correct
+        # checking if the users answer is correct
         if operation == "+":
             answer = number1 + number2
         elif operation == "-":
@@ -80,7 +87,8 @@ def basic_questions():
             print("Correct")
             score += 1
         else:
-            print("Incorrect")   
+            print("Incorrect")
+        user_answer = 0
     print("Your final score is {}/{}".format(score, user_question))
     print(prev_answers)
     menu = input("Would you like to return to the menu?\n").strip().lower()
@@ -89,13 +97,12 @@ def basic_questions():
         main()
     else:
         print("Quitting")
-    
 
-#defining function to give the user harder questions
+# defining function to give the user harder questions
 def hard_questions():
-    #setting score variable
+    # setting score variable
     score = 0
-    #asking the user what operation they would like to use
+    # asking the user what operation they would like to use
     OPERATIONS = ["1", "2", "3"]
     operation = 0
     while operation not in operations:
@@ -106,7 +113,7 @@ def hard_questions():
 (3). Multiplication?\n:""").lower().strip()
         except ValueError:
             print("Please enter a number between 1 and 4")
-            
+
     OP_SYMBOLS = ["+", "-", "x"]
     if operation == "1":
         operation = OP_SYMBOLS[0]
@@ -114,14 +121,14 @@ def hard_questions():
         operation = OP_SYMBOLS[1]
     elif operation == "3":
         operation = OP_SYMBOLS[2]
-    #asking the user how many questions they would like
+    # asking the user how many questions they would like
     user_question = int(input("How many questions would you like?\n"))
-    #creating a loop that will ask the user their given amount of questions
+    # creating a loop that will ask the user their given amount of questions
     for i in range(0, user_question):
-        number1 = random.randint(0,24)
-        number2 = random.randint(0,24)
+        number1 = random.randint(0, 24)
+        number2 = random.randint(0, 24)
         user_answer = int(input("What is {} {} {}?\n".format(number1, operation, number2)))
-        #checking if the users answer is correct
+        # checking if the users answer is correct
         if operation == "+":
             answer = number1 + number2
         elif operation == "-":
@@ -138,7 +145,7 @@ def hard_questions():
     if menu == "yes":
         main()
 
-#defining function main to start the program
+# defining function main to start the program
 def main():
     menu()
 
