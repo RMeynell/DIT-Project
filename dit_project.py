@@ -218,3 +218,54 @@ What difficulty would you like?
             number1 = random.randint(0, 12)
             number2 = random.randint(0, 12)
 """
+
+
+
+"""
+import random
+
+def questions():
+    coins = 0
+    streak = 0
+    # setting difficulty
+    difficulty = -1
+    while difficulty != 1 and difficulty != 2:
+        try:
+            difficulty = int(input("""------------------------
+What difficulty would you like?
+(1). Easy
+(2). Hard\n------------------------\n"""))
+        except:
+            print("Please enter 1 or 2")
+    # randomnizing the operation
+    OPERATIONS = ["+", "-", "/", "*"]
+    random_op = random.randint(0,3)
+    final_op = OPERATIONS[random_op]
+    # asking the user the questions
+    for i in range(0, 5):
+        # setting the number range
+        if difficulty == 1:
+            number1 = random.randint(0, 12)
+            number2 = random.randint(0, 12)
+        #preventing negative numbers
+        while number1 < number2:
+            number1 = random.randint(0, 12)
+            number2 = random.randint(0, 12)
+        else:
+            number1 = random.randint(0, 24)
+            number2 = random.randint(0, 24)
+        #preventing negative numbers
+        while number1 < number2:
+            number1 = random.randint(0, 24)
+            number2 = random.randint(0, 24)
+        #asking the user the question
+        question_num = (i + 1)
+        user_answer = float(input("Question {}: {} {} {}\n= "
+        .format(question_num, number1, final_op, number2)))
+        #checking the answer
+        answer = (number1, final_op, number2)
+        if user_answer == answer:
+            print("Correct")
+        print(answer)
+questions()
+"""
