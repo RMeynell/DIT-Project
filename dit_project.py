@@ -223,7 +223,6 @@ What difficulty would you like?
 
 """
 import random
-
 def questions():
     coins = 0
     streak = 0
