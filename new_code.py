@@ -6,8 +6,7 @@
 import random
 
 # defining variables
-prev_answers = {
-    }
+prev_answers = {}
 coins = 0
 name = input("What is your Username? \n")
 # defining function for the menu system
