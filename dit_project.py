@@ -1,5 +1,5 @@
 ##
-# new_code.py
+# dit_project.py
 # created by Regan Meynell
 
 # importing random
@@ -14,31 +14,28 @@ name = input("What is your Username?: ")
 # defining function for the menu system
 def menu(coins, prev_answers, name, streak, high_streak):
     user_choice = 11
-    while user_choice <= 0 or user_choice >= 6:
+    while user_choice <= 0 or user_choice >= 5:
         try:
             user_choice = int(input("""
 ------------------------
 Please choose an option:
 (1). Questions
-(2). History
-(3). User Info
-(4). Program Info
-(5). Quit Program
+(2). User Info
+(3). Program Info
+(4). Quit Program
 ------------------------
 """))
         except:
-            print("Please enter an integer between 1 and 5")
+            print("Please enter an integer between 1 and 4")
 
     # calling the correct function
     if user_choice == 1:
         difficulty_select(coins, prev_answers, streak, high_streak)
     elif user_choice == 2:
-        history(prev_answers, streak, high_streak)
-    elif user_choice == 3:
         user_info(name, coins, streak, high_streak)
-    elif user_choice == 4:
+    elif user_choice == 3:
         info()
-    elif user_choice == 5:
+    elif user_choice == 4:
         print("Quitting...")
     
 # defining function to let the user choose their difficulty
@@ -82,6 +79,8 @@ def easy_questions(coins, prev_answers, streak, high_streak):
         else:
             operation = "-"
         question_num = (i + 1)
+        user_answer = 25
+        
         user_answer = int(input("Question {}: {} {} {} \n="
                                 .format(question_num, num1, operation, num2)))
         # checking the answer
@@ -203,24 +202,6 @@ def hard_questions(coins, prev_answers, streak, high_streak):
         high_streak = streak
     menu_return(coins, prev_answers, name, streak, high_streak)
         
-# defining function to view history
-def history(prev_answers, streak, high_streak):
-    answerlen = (len(prev_answers) / 2)
-    int(answerlen)
-    if len(prev_answers) == 0:
-        print("There are no available questions to view")
-        print("Returning to the menu")
-        menu(coins, prev_answers, name, streak, high_streak)
-    else:
-        print("There are {} total questions available to view".format(answerlen))
-        view_num = int(input("How many questions would you like to view? \n"))
-        view_num = view_num * 2
-        view_num = "-{}".format(view_num)
-        new_num = int(view_num)
-    # printing the wanted number of questions
-    for i in range(new_num, 0):
-        print(prev_answers[i])
-        
 # defining function to view user info
 def user_info(name, coins, streak, high_streak):
     print("Username: {}".format(name))
@@ -265,15 +246,10 @@ The hard questions will use randomly generated numbers between 10 and 24
 ------------------------------------------------------------------------
                                  Coins:
      For every easy question you get correct you will earn 10 coins
-     For every hard question you get correct you will earn 10 coins
+     For every hard question you get correct you will earn 20 coins
       You also get a reward for getting consecutive correct answers
               Every time your streak passes a multiple of 5
                    You will earn 2 times the multiple
-------------------------------------------------------------------------
-                                History:
-     This screen shows you the previous questions you have answered
-       You can choose how many of these question it will show you
-         It will also tell you if you were correct or incorrect
 ------------------------------------------------------------------------
                                User Info:
                    This screen displays your user name,
