@@ -11,18 +11,21 @@ coins = 0
 streak = 0
 high_streak = 0
 name = input("What is your Username?: ")
+
 # defining function for the menu system
+
 def menu(coins, prev_answers, name, streak, high_streak):
     user_choice = 11
-    while user_choice <= 0 or user_choice >= 5:
+    while user_choice <= 0 or user_choice >= 6:
         try:
             user_choice = int(input("""
 ------------------------
 Please choose an option:
 (1). Questions
-(2). User Info
-(3). Program Info
-(4). Quit Program
+(2). Gambling
+(3). User Info
+(4). Program Info
+(5). Quit Program
 ------------------------
 """))
         except:
@@ -32,10 +35,12 @@ Please choose an option:
     if user_choice == 1:
         difficulty_select(coins, prev_answers, streak, high_streak)
     elif user_choice == 2:
-        user_info(name, coins, streak, high_streak)
+        gamble(coins)
     elif user_choice == 3:
-        info()
+        user_info(name, coins, streak, high_streak)
     elif user_choice == 4:
+        info()
+    elif user_choice == 5:
         print("Quitting...")
     
 # defining function to let the user choose their difficulty
@@ -79,10 +84,13 @@ def easy_questions(coins, prev_answers, streak, high_streak):
         else:
             operation = "-"
         question_num = (i + 1)
-        user_answer = 25
-        
-        user_answer = int(input("Question {}: {} {} {} \n="
+        user_answer = 0.5
+        while user_answer == 0.5:
+            try:
+                user_answer = int(input("Question {}: {} {} {} \n="
                                 .format(question_num, num1, operation, num2)))
+            except:
+                print("Please enter an integer")
         # checking the answer
         if operation == "+":
             answer = num1 + num2
@@ -149,8 +157,13 @@ def hard_questions(coins, prev_answers, streak, high_streak):
         else:
             operation = "x"
         question_num = (i + 1)
-        user_answer = int(input("Question {}: {} {} {} \n="
+        user_answer = 0.5
+        while user_answer == 0.5:
+            try:
+                user_answer = int(input("Question {}: {} {} {} \n="
                                 .format(question_num, num1, operation, num2)))
+            except:
+                print("Please enter an integer")
         # checking the answer
         if operation == "+":
             answer = num1 + num2
@@ -201,6 +214,12 @@ def hard_questions(coins, prev_answers, streak, high_streak):
     if streak > high_streak:
         high_streak = streak
     menu_return(coins, prev_answers, name, streak, high_streak)
+    return streak
+
+# defining function for the gambling feature
+def gamble(coins):
+    gamble = input("Would you like to gamble $30 (Y/N)").strip().lower()
+    
         
 # defining function to view user info
 def user_info(name, coins, streak, high_streak):
@@ -259,6 +278,6 @@ The hard questions will use randomly generated numbers between 10 and 24
     menu_return(coins, prev_answers, name, streak, high_streak)      
 # defining function main to start the program
 def main():
-     menu(coins, prev_answers, name, streak, high_streak)
+    menu(coins, prev_answers, name, streak, high_streak)
 
 main()
