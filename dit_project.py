@@ -10,11 +10,13 @@ prev_answers = []
 coins = 30
 streak = 0
 high_streak = 0
+xp = 0
+xp_level = 0
 name = input("What is your Username?: ")
 
 # defining function for the menu system
 
-def menu(coins, prev_answers, name, streak, high_streak):
+def menu(coins, prev_answers, name, streak, high_streak, xp, xp_level):
     user_choice = 11
     while user_choice <= 0 or user_choice >= 6:
         try:
@@ -33,18 +35,18 @@ Please choose an option:
 
     # calling the correct function
     if user_choice == 1:
-        difficulty_select(coins, prev_answers, streak, high_streak)
+        difficulty_select(coins, prev_answers, name, streak, high_streak, xp, xp_level)
     elif user_choice == 2:
-        gamble(coins)
+        gamble(coins, prev_answers, name, streak, high_streak, xp, xp_level)
     elif user_choice == 3:
-        user_info(name, coins, streak, high_streak)
+        user_info(coins, prev_answers, name, streak, high_streak, xp, xp_level)
     elif user_choice == 4:
         info()
     elif user_choice == 5:
         print("Quitting...")
     
 # defining function to let the user choose their difficulty
-def difficulty_select(coins, prev_answers, streak, high_streak):
+def difficulty_select(coins, prev_answers, name, streak, high_streak, xp, xp_level):
     # asking the user what difficulty they would like
     difficulty = -1
     while difficulty <= 0 or difficulty >= 3:
@@ -227,33 +229,37 @@ def gamble(coins):
         coins -= 30
         print("Generating a random number between 0 and 10,000")
         number = random.randint(0, 10000)
+        number = 10000
         print("The random number was {}".format(number))
-        if number == 7846:
-            print("You won 10,000 coins")
-            coins += 10000
-            menu_return(coins, prev_answers, name, streak, high_streak)
-        elif number < 2000:
-            print("You won 5 coins")
-            coins += 5
-            menu_return(coins, prev_answers, name, streak, high_streak)
-        elif number > 2000 and number < 3000:
+        if number < 5000:
             print("You won 20 coins")
             coins += 20
             menu_return(coins, prev_answers, name, streak, high_streak)
-        elif number > 3000 and number < 3000:
+        elif number > 5000 and number < 8000:
             print("You won 30 coins")
             coins += 30
             menu_return(coins, prev_answers, name, streak, high_streak)
-        elif number > 3000 and number < 4000:
+        elif number > 8000 and number < 9500:
             print("You won 50 coins")
+            coins += 50
             menu_return(coins, prev_answers, name, streak, high_streak)
-        
+        elif number > 9500 and number < 9999:
+            print("You won 100 coins")
+            coins += 100
+            menu_return(coins, prev_answers, name, streak, high_streak)
+        elif number == 10000:
+            print("You won 10,000 coins")
+            coins += 10000
+            menu_return(coins, prev_answers, name, streak, high_streak)
+            
 # defining function to view user info
 def user_info(name, coins, streak, high_streak):
     print("Username: {}".format(name))
     print("You currently have {} coins".format(coins))
     print("Your highest streak is: {}".format(high_streak))
     print("Your current streak is: {}".format(streak))
+    print("Your current xp level is {}".format(xp_level))
+    print("Your current amount of xp is: {}".format(xp))
     # returning users to the menu
     menu_return(coins, prev_answers, name, streak, high_streak)
 
