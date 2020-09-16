@@ -7,7 +7,7 @@ import random
 
 # defining variables
 prev_answers = []
-coins = 0
+coins = 30
 streak = 0
 high_streak = 0
 name = input("What is your Username?: ")
@@ -218,8 +218,35 @@ def hard_questions(coins, prev_answers, streak, high_streak):
 
 # defining function for the gambling feature
 def gamble(coins):
+    if coins <= 29:
+        print("You don't have enough coins")
+        menu_return(coins, prev_answers, name, streak, high_streak)
     gamble = input("Would you like to gamble $30 (Y/N)").strip().lower()
-    
+    print(gamble)
+    if gamble == "y":
+        coins -= 30
+        print("Generating a random number between 0 and 10,000")
+        number = random.randint(0, 10000)
+        print("The random number was {}".format(number))
+        if number == 7846:
+            print("You won 10,000 coins")
+            coins += 10000
+            menu_return(coins, prev_answers, name, streak, high_streak)
+        elif number < 2000:
+            print("You won 5 coins")
+            coins += 5
+            menu_return(coins, prev_answers, name, streak, high_streak)
+        elif number > 2000 and number < 3000:
+            print("You won 20 coins")
+            coins += 20
+            menu_return(coins, prev_answers, name, streak, high_streak)
+        elif number > 3000 and number < 3000:
+            print("You won 30 coins")
+            coins += 30
+            menu_return(coins, prev_answers, name, streak, high_streak)
+        elif number > 3000 and number < 4000:
+            print("You won 50 coins")
+            menu_return(coins, prev_answers, name, streak, high_streak)
         
 # defining function to view user info
 def user_info(name, coins, streak, high_streak):
