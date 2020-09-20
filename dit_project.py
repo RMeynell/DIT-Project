@@ -12,41 +12,43 @@ streak = 0
 high_streak = 0
 xp = 0
 xp_level = 0
+user_choice = 10
 name = input("What is your Username?: ")
 
 # defining function for the menu system
-
-def menu(coins, prev_answers, name, streak, high_streak, xp, xp_level):
-    user_choice = 11
-    while user_choice <= 0 or user_choice >= 6:
+def menu(user_choice):
+    while user_choice <= 0 or user_choice >= 8:
         try:
             user_choice = int(input("""
 ------------------------
 Please choose an option:
 (1). Questions
 (2). Gambling
-(3). User Info
-(4). Program Info
-(5). Quit Program
+(3). Shop
+(4). Inventory
+(5). User Info
+(6). Program Info
+(7). Quit Program
 ------------------------
 """))
         except:
-            print("Please enter an integer between 1 and 4")
-
+            print("Please enter an integer between 1 and 7")
     # calling the correct function
     if user_choice == 1:
-        difficulty_select(coins, prev_answers, name, streak, high_streak, xp, xp_level)
+        difficulty_select()
     elif user_choice == 2:
-        gamble(coins, prev_answers, name, streak, high_streak, xp, xp_level)
+        gamble(coins, xp, xp_level)
     elif user_choice == 3:
-        user_info(coins, prev_answers, name, streak, high_streak, xp, xp_level)
+        shop(coins, xp, xp_level)
     elif user_choice == 4:
-        info()
+        inventory(coins, xp, xp_level)
     elif user_choice == 5:
-        print("Quitting...")
-    
+        user_info(coins, prev_answers, name, streak, high_streak, xp, xp_level)
+    elif user_choice == 6:
+        info()
+
 # defining function to let the user choose their difficulty
-def difficulty_select(coins, prev_answers, name, streak, high_streak, xp, xp_level):
+def difficulty_select():
     # asking the user what difficulty they would like
     difficulty = -1
     while difficulty <= 0 or difficulty >= 3:
@@ -62,12 +64,12 @@ Please choose a difficulty:
             print("Please enter 1 or 2")
     # calling the correct function
     if difficulty == 1:
-        easy_questions(coins, prev_answers, streak, high_streak)
+        easy_questions(coins, prev_answers, streak, high_streak, xp, xp_level)
     elif difficulty == 2:
-        hard_questions(coins, prev_answers, streak, high_streak)
-        
+        hard_questions(coins, prev_answers, streak, high_streak, xp, xp_level)
+
 # defining function to ask the user easy questions
-def easy_questions(coins, prev_answers, streak, high_streak):
+def easy_questions(coins, prev_answers, streak, high_streak, xp, xp_level):
     questionfive = 0
     earned_coins = 0
     # asking the user the question
@@ -133,12 +135,11 @@ def easy_questions(coins, prev_answers, streak, high_streak):
     # checking if the users highest streak has been beaten
     if streak > high_streak:
         high_streak = streak
-    # returning the user to the menu if they would like
-    menu_return(coins, prev_answers, name, streak, high_streak)
-    return streak 
+    # returning variables
+    return coins, prev_answers, streak, high_streak, xp, xp_level
     
 # defining function to ask the user hard questions
-def hard_questions(coins, prev_answers, streak, high_streak):
+def hard_questions(coins, prev_answers, streak, high_streak, xp, xp_level):
     questionfive = 0
     earned_coins = 0
     # asking the user the question
@@ -215,74 +216,54 @@ def hard_questions(coins, prev_answers, streak, high_streak):
     # checking if the users highest streak has been beaten
     if streak > high_streak:
         high_streak = streak
-    menu_return(coins, prev_answers, name, streak, high_streak)
-    return streak
+    #returning variables
+    return coins, prev_answers, streak, high_streak, xp, xp_level
 
 # defining function for the gambling feature
-def gamble(coins):
+def gamble(coins, xp, xp_level):
     if coins <= 29:
         print("You don't have enough coins")
-        menu_return(coins, prev_answers, name, streak, high_streak)
+        menu(coins, prev_answers, name, streak, high_streak, xp, xp_level)
     gamble = input("Would you like to gamble $30 (Y/N)").strip().lower()
     print(gamble)
     if gamble == "y":
         coins -= 30
         print("Generating a random number between 0 and 10,000")
         number = random.randint(0, 10000)
-        number = 10000
         print("The random number was {}".format(number))
         if number < 5000:
             print("You won 20 coins")
             coins += 20
-            menu_return(coins, prev_answers, name, streak, high_streak)
         elif number > 5000 and number < 8000:
             print("You won 30 coins")
             coins += 30
-            menu_return(coins, prev_answers, name, streak, high_streak)
         elif number > 8000 and number < 9500:
             print("You won 50 coins")
             coins += 50
-            menu_return(coins, prev_answers, name, streak, high_streak)
         elif number > 9500 and number < 9999:
             print("You won 100 coins")
             coins += 100
-            menu_return(coins, prev_answers, name, streak, high_streak)
         elif number == 10000:
             print("You won 10,000 coins")
             coins += 10000
-            menu_return(coins, prev_answers, name, streak, high_streak)
-            
+    return coins, prev_answers, name, streak, high_streak, xp, xp_level
+
+#defining function for the shop
+def shop(coins, xp, xp_level):
+    print("Shop")
+
+#defining function for the inventory
+def inventory(coins):
+    print("Inventory")
+
 # defining function to view user info
-def user_info(name, coins, streak, high_streak):
+def user_info(coins, prev_answers, name, streak, high_streak, xp, xp_level):
     print("Username: {}".format(name))
     print("You currently have {} coins".format(coins))
     print("Your highest streak is: {}".format(high_streak))
     print("Your current streak is: {}".format(streak))
     print("Your current xp level is {}".format(xp_level))
     print("Your current amount of xp is: {}".format(xp))
-    # returning users to the menu
-    menu_return(coins, prev_answers, name, streak, high_streak)
-
-# defining function to allow the user to quit the program
-def menu_return(coins, prev_answers, name, streak, high_streak):
-    # returning the user to the menu if they would like
-    back = -1
-    while back <= 0 or back >= 3:
-        try:
-            back = int(input("""
--------------------------------------
-Would you like to return to the menu:
-(1). Yes
-(2). No
--------------------------------------
-"""))
-        except:
-            print("Please enter 1 or 2")
-    if back == 1:
-        print("Returning to the menu")
-        menu(coins, prev_answers, name, streak, high_streak)
-    else:
-        print("Quitting...")
 
 # defining function to give the user information about the program
 def info():
@@ -308,9 +289,12 @@ The hard questions will use randomly generated numbers between 10 and 24
            your current amount of coins, your current streak,
                          and your highest streak
 ------------------------------------------------------------------------""")
-    menu_return(coins, prev_answers, name, streak, high_streak)      
+          
 # defining function main to start the program
 def main():
-    menu(coins, prev_answers, name, streak, high_streak)
+    menu(user_choice)
 
-main()
+if user_choice != 7:
+    main()
+if user_choice == 7:
+    print("Quitting...")
