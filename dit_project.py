@@ -6,7 +6,7 @@
 import random
 
 # defining variables
-coins = 30
+coins = 0
 streak = 0
 high_streak = 0
 xp = 0
@@ -256,20 +256,51 @@ def gamble(coins):
 
 # defining function for the shop
 def shop(coins):
-    item_list = ["Pencil: ", 10, "Blank Book: ", 30, "Calculator: ", 100]
+    """
+    #checking if the user has enough coins to buy something
+    if coins < 10:
+        buy = False
+    else:
+        buy = True
+    while buy == True:
+        item_list = ["Pencil:", "Blank Book:", "Calculator:"]
+        price_list = [10, 30, 100]
+        print("Welcome to the shop")
+        print("You currently have {} coins".format(coins))
+        print("-----------------------------")
+        print("Here are the available items:")
+        for i in range(0, len(item_list)):
+            print("({}). {} {} coins".format((i + 1), item_list[i], price_list[i]))
+        print("-----------------------------")
+            item_buy = int(input("Which item would you like to buy today?: \n"))
+            i = i - 1
+            item_price = price_list[i]
+            while item_price > coins:
+            
+    #asking the user what they would like to buy
+    while coins < price_list[i]:
+    """   
     print("Welcome to the shop")
     print("You currently have {} coins".format(coins))
-    print("-----------------------------")
-    print("Here are the available items:")
-    for i in range(0, len(item_list), 2):
-        print("({}). {}".format((i + 1), item_list[i]))
-    print("-----------------------------")
-    #asking the user what they would like to buy
-    item_buy = int(input("Which item would you like to buy today?: \n"))
-    price = i + 2
-    print(price)
-    if price > coins:
-        print("You do not have enough coins to buy this item")
+    print("""
+--------------------------
+(1). Pencil, 10 coins
+(2). Blank Book, 30 coins
+(3). Calculator, 100 coins
+--------------------------""")
+    item_buy = -1
+    while item_buy <= 0 or item_buy >= 4:
+        try:
+            item_buy = int(input("Which item would you like to buy today?: \n"))
+        except:
+            if item_buy == 1 and coins < 10:
+                print("You do not have enough coins to buy this item")
+            elif item_buy == 2 and coins < 30:
+                print("You do not have enough coins to buy this item")
+            elif item_buy == 3 and coins < 100:
+                print("You do not have enough coins to buy this item")
+
+        
 # defining function to view user info
 def user_info(coins, name, streak, high_streak, xp, xp_level):
     print("Username: {}".format(name))
