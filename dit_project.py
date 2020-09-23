@@ -6,16 +6,15 @@
 import random
 
 # defining variables
-coins = 0
+coins = 1000
 streak = 0
 high_streak = 0
-xp = 0
-xp_level = 0
+user_items = ["", "", ""]
 name = input("What is your Username?: ")
 
 # defining function for the menu system
 
-def menu(coins, name, streak, high_streak, xp, xp_level):
+def menu(coins, name, streak, high_streak, user_items):
     user_choice = 11
     while user_choice <= 0 or user_choice >= 7:
         try:
@@ -35,20 +34,20 @@ Please choose an option:
 
     # calling the correct function
     if user_choice == 1:
-        difficulty_select(coins, name, streak, high_streak, xp, xp_level)
+        difficulty_select(coins, name, streak, high_streak)
     elif user_choice == 2:
-        gamble(coins, name, streak, high_streak, xp, xp_level)
+        gamble(coins, name, streak, high_streak)
     elif user_choice == 3:
-        shop(coins)
+        shop(coins, user_items)
     elif user_choice == 4:
-        user_info(coins, name, streak, high_streak, xp, xp_level)
+        user_info(coins, name, streak, high_streak, user_items)
     elif user_choice == 5:
         info()
     elif user_choice == 6:
         print("Quitting...")
     
 # defining function to let the user choose their difficulty
-def difficulty_select(coins, name, streak, high_streak, xp, xp_level):
+def difficulty_select(coins, name, streak, high_streak):
     # asking the user what difficulty they would like
     difficulty = -1
     while difficulty <= 0 or difficulty >= 3:
@@ -136,7 +135,7 @@ def easy_questions(coins, streak, high_streak):
     if streak > high_streak:
         high_streak = streak
     # returning the user to the menu if they would like
-    menu(coins, name, streak, high_streak, xp, xp_level)
+    menu(coins, name, streak, high_streak, user_items)
     return streak 
     
 # defining function to ask the user hard questions
@@ -217,14 +216,14 @@ def hard_questions(coins, streak, high_streak):
     # checking if the users highest streak has been beaten
     if streak > high_streak:
         high_streak = streak
-    menu(coins, name, streak, high_streak, xp, xp_level)
+    menu(coins, name, streak, high_streak, user_items)
     return streak
 
 # defining function for the gambling feature
 def gamble(coins):
     if coins <= 29:
         print("You don't have enough coins")
-        menu(coins, name, streak, high_streak, xp, xp_level)
+        menu(coins, name, streak, high_streak, user_items)
     gamble = input("Would you like to gamble $30 (Y/N)").strip().lower()
     print(gamble)
     if gamble == "y":
@@ -236,81 +235,103 @@ def gamble(coins):
         if number < 5000:
             print("You won 20 coins")
             coins += 20
-            menu(coins, name, streak, high_streak, xp, xp_level)
+            menu(coins, name, streak, high_streak, user_items)
         elif number > 5000 and number < 8000:
             print("You won 30 coins")
             coins += 30
-            menu(coins, name, streak, high_streak, xp, xp_level)
+            menu(coins, name, streak, high_streak, user_items)
         elif number > 8000 and number < 9500:
             print("You won 50 coins")
             coins += 50
-            menu(coins, name, streak, high_streak, xp, xp_level)
+            menu(coins, name, streak, high_streak, user_items)
         elif number > 9500 and number < 9999:
             print("You won 100 coins")
             coins += 100
-            menu(coins, name, streak, high_streak, xp, xp_level)
+            menu(coins, name, streak, high_streak, user_items)
         elif number == 10000:
             print("You won 10,000 coins")
             coins += 10000
-            menu(coins, name, streak, high_streak, xp, xp_level)
+            menu(coins, name, streak, high_streak, user_items)
 
 # defining function for the shop
-def shop(coins):
-    """
-    #checking if the user has enough coins to buy something
-    if coins < 10:
-        buy = False
-    else:
-        buy = True
-    while buy == True:
-        item_list = ["Pencil:", "Blank Book:", "Calculator:"]
-        price_list = [10, 30, 100]
-        print("Welcome to the shop")
-        print("You currently have {} coins".format(coins))
-        print("-----------------------------")
-        print("Here are the available items:")
-        for i in range(0, len(item_list)):
-            print("({}). {} {} coins".format((i + 1), item_list[i], price_list[i]))
-        print("-----------------------------")
-            item_buy = int(input("Which item would you like to buy today?: \n"))
-            i = i - 1
-            item_price = price_list[i]
-            while item_price > coins:
-            
-    #asking the user what they would like to buy
-    while coins < price_list[i]:
-    """   
+def shop(coins, user_items):
+    # defining variables
+    pencil_no = 0
+    book_no = 0
+    calc_no = 0
+    # showing the user items they can buy
     print("Welcome to the shop")
     print("You currently have {} coins".format(coins))
-    print("""
---------------------------
+    print("""--------------------------
 (1). Pencil, 10 coins
 (2). Blank Book, 30 coins
 (3). Calculator, 100 coins
+(4). Return to the menu
 --------------------------""")
-    item_buy = -1
-    while item_buy <= 0 or item_buy >= 4:
+    # checking the user enough coins to buy their selected item
+    price_met = False    
+    while price_met == False:
         try:
             item_buy = int(input("Which item would you like to buy today?: \n"))
         except:
-            if item_buy == 1 and coins < 10:
-                print("You do not have enough coins to buy this item")
-            elif item_buy == 2 and coins < 30:
-                print("You do not have enough coins to buy this item")
-            elif item_buy == 3 and coins < 100:
-                print("You do not have enough coins to buy this item")
+            print("Please enter a number between 1 and 4")
+        if item_buy == 1 and coins >= 10:
+            price_met = True
+            print("You have successfuly bought a Pencil")
+            pencil_no += 1
+            user_items[0] = "{}x Pencil".format(pencil_no)
+            coins -= 10
+        elif item_buy == 2 and coins >= 30:
+            price_met = True
+            print("You have successfuly bought a Blank Book")
+            book_no += 1
+            user_items[0] = "{}x Blank Book".format(book_no)
+            coins -= 30
+        elif item_buy == 3 and coins >= 100:
+            price_met = True
+            print("You have successfuly bought a Calculator")
+            calc_no += 1
+            user_items[0] = "{}x Calculator".format(calc_no)
+            coins -= 100
+        elif item_buy == 4:
+            menu(coins, name, streak, high_streak, user_items)
+        else:
+            print("You do not have enough coins to buy that item")
+    # asking the user if they would like to return to the menu
+    menu_return = -1
+    while menu_return <= 0 or menu_return >= 3:
+        try:
+            menu_return = int(input("""
+-----------------------------------------------
+Would you buy more items or return to the menu?
+(1). Return to the shop
+(2). Return to the menu
+-----------------------------------------------
+"""))
+        except:
+            print("Please enter 1 or 2")
+    if menu_return == 1:
+        shop(coins, user_items)
+    else:
+        menu(coins, name, streak, high_streak, user_items)
 
-        
 # defining function to view user info
-def user_info(coins, name, streak, high_streak, xp, xp_level):
+def user_info(coins, name, streak, high_streak, user_items):
     print("Username: {}".format(name))
     print("You currently have {} coins".format(coins))
     print("Your highest streak is: {}".format(high_streak))
     print("Your current streak is: {}".format(streak))
-    print("Your current xp level is {}".format(xp_level))
-    print("Your current amount of xp is: {}".format(xp))
+    view_inventory = "x"
+    while view_inventory != "y" and view_inventory != "n":
+        try:
+            view_inventory = input("Would you like to view your inventory? (Y/N)").strip().lower()
+        except:
+            ("Please enter Y or N")
+    if view_inventory == "y":
+        for i in range(0, len(user_items)):
+            print(user_items[i])
     # returning users to the menu
-    menu(coins, name, streak, high_streak, xp, xp_level)
+    menu(coins, name, streak, high_streak, user_items)
 
 # defining function to give the user information about the program
 def info():
@@ -336,9 +357,9 @@ The hard questions will use randomly generated numbers between 10 and 24
            your current amount of coins, your current streak,
                          and your highest streak
 ------------------------------------------------------------------------""")
-    menu(coins, name, streak, high_streak, xp, xp_level)      
+    menu(coins, name, streak, high_streak, user_items)      
 # defining function main to start the program
 def main():
-    menu(coins, name, streak, high_streak, xp, xp_level)
+    menu(coins, name, streak, high_streak, user_items)
 
 main()
