@@ -256,18 +256,14 @@ def gamble(coins):
 # defining function for the shop
 def shop(coins, user_items):
     # defining variables
-    pencil_no = 0
-    book_no = 0
-    calc_no = 0
+    shop_items = ["(1). Pencil", "(2). Blank Book", "(3). Calculator", "(4). Return to menu"]
     # showing the user items they can buy
     print("Welcome to the shop")
     print("You currently have {} coins".format(coins))
-    print("""--------------------------
-(1). Pencil, 10 coins
-(2). Blank Book, 30 coins
-(3). Calculator, 100 coins
-(4). Return to the menu
---------------------------""")
+    print("--------------------------")
+    for i in range(0, len(shop_items)):
+        print(shop_items[i])
+    print("--------------------------")
     # checking the user enough coins to buy their selected item
     price_met = False    
     while price_met == False:
@@ -278,21 +274,22 @@ def shop(coins, user_items):
         if item_buy == 1 and coins >= 10:
             price_met = True
             print("You have successfuly bought a Pencil")
-            pencil_no += 1
-            user_items[0] = "{}x Pencil".format(pencil_no)
             coins -= 10
+            shop_items.remove[0]
         elif item_buy == 2 and coins >= 30:
             price_met = True
             print("You have successfuly bought a Blank Book")
             book_no += 1
             user_items[0] = "{}x Blank Book".format(book_no)
             coins -= 30
+            shop_items.remove[1]
         elif item_buy == 3 and coins >= 100:
             price_met = True
             print("You have successfuly bought a Calculator")
             calc_no += 1
             user_items[0] = "{}x Calculator".format(calc_no)
             coins -= 100
+            shop_items.remove[2]
         elif item_buy == 4:
             menu(coins, name, streak, high_streak, user_items)
         else:
